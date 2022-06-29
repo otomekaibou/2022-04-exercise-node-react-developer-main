@@ -12,7 +12,7 @@ export function RepositoryContainer() {
   setDisplayLanguage(value.target.value);
  }
 
-  // API call
+  // get data for all repos
   useEffect(() => {
     fetch("http://localhost:4000/repos", {
       method: "GET",
