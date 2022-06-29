@@ -14,7 +14,10 @@ repos.get('/', async (_: Request, res: Response) => {
   try {
     // read file
     let fileData = JSON.parse(fs.readFileSync("data/repos.json", "utf8"));
-    res.json(fileData);
+    let forkFalseOnly = fileData.filter((repo: any) => {
+      return repo['fork'] === false;
+    });
+    res.json(forkFalseOnly);
   } catch (error) {
     console.log(error);
     res.status(400).send(error);
