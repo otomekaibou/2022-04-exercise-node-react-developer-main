@@ -4,7 +4,13 @@ import { RepoItem } from './repoItem';
 export function RepositoryContainer() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [repoData, setRepoData] = useState([]);
+  const [allRepoData, setAllRepoData] = useState([]);
+  const [displayLanguage, setDisplayLanguage] = useState(null);
+  const [displayRepoData, setDisplayRepoData] = useState([]);
+
+ function filterLanguage(value: any) {
+  setDisplayLanguage(value.target.value);
+ }
 
   // API call
   useEffect(() => {
@@ -18,7 +24,8 @@ export function RepositoryContainer() {
     .then((res) => res.json())
     .then(
       (json) => {
-        setRepoData(json);
+        setAllRepoData(json);
+        setDisplayRepoData(json);
         setLoading(false);
       },
       (error) => {
@@ -33,17 +40,23 @@ export function RepositoryContainer() {
     return <h2 className="status-message">Retrieving data...</h2>
   } else if (error) {
     return <div className="status-message">{error}</div>
-  } else if (repoData.length === 0) {
+  } else if (allRepoData.length === 0) {
     return <h2 className="status-message">No data</h2>
   } else {
 
-    console.log(repoData)
-    repoData.sort((a, b) => (b['created_at'] > a['created_at']) ? 1: -1);
-    console.log(repoData)
+    allRepoData.sort((a, b) => (b['created_at'] > a['created_at']) ? 1: -1);
 
     return (
       <React.Fragment>
-        {repoData.map(repo => {
+        {allRepoData.map(repo => {
+          return <input type="button" value={repo['language']} onClick={filterLanguage}/>
+        })}
+        { displayLanguage ? displayRepoData.filter(repo => 
+        repo['language'] === displayLanguage).map(repo => {
+          return <RepoItem repoData={repo} />
+        })
+        :
+        displayRepoData.map(repo => {
             return <RepoItem repoData={repo} />
           })
         }
