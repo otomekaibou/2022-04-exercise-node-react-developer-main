@@ -12,6 +12,7 @@ repos.get('/', async (_: Request, res: Response) => {
   res.status(200);
 
   try {
+    // read file
     let fileData = JSON.parse(fs.readFileSync("data/repos.json", "utf8"));
     res.json(fileData);
   } catch (error) {
@@ -20,6 +21,7 @@ repos.get('/', async (_: Request, res: Response) => {
   }
 
   // try {
+  //   // fetch json from url
   //   let urlData = await fetch(JSON_URL)
   //   console.log(urlData)
   // } catch (error) {

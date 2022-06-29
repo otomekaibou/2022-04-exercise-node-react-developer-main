@@ -5,8 +5,8 @@ export function RepositoryContainer() {
   const [loading, setLoading] = useState(true);
   const [repoData, setRepoData] = useState([]);
 
+  // API call
   useEffect(() => {
-    let mounted = true;
     fetch("http://localhost:4000/repos", {
       method: "GET",
       headers: {
@@ -17,18 +17,15 @@ export function RepositoryContainer() {
     .then((res) => res.json())
     .then(
       (json) => {
-        if (mounted) {
-          setRepoData(json);
-          console.log(json);
-          setLoading(false);
-        }
+        setRepoData(json);
+        console.log(json);
+        setLoading(false);
       },
       (error) => {
         setError(error);
         setLoading(false);
       }
     );
-    mounted = false;
     return;
   }, []);
 
