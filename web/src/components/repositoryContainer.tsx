@@ -19,7 +19,6 @@ export function RepositoryContainer() {
     .then(
       (json) => {
         setRepoData(json);
-        console.log(json);
         setLoading(false);
       },
       (error) => {
@@ -37,6 +36,10 @@ export function RepositoryContainer() {
   } else if (repoData.length === 0) {
     return <h2 className="status-message">No data</h2>
   } else {
+
+    console.log(repoData)
+    repoData.sort((a, b) => (b['created_at'] > a['created_at']) ? 1: -1);
+    console.log(repoData)
 
     return (
       <React.Fragment>
