@@ -12,6 +12,10 @@ export function RepositoryContainer() {
   setDisplayLanguage(value.target.value);
  }
 
+ function isUnique(value: any, index: any, self: string | any[]) {
+  return self.indexOf(value) === index;
+}
+
   // get data for all repos
   useEffect(() => {
     fetch("http://localhost:4000/repos", {
@@ -45,14 +49,17 @@ export function RepositoryContainer() {
   } else {
 
     allRepoData.sort((a, b) => (b['created_at'] > a['created_at']) ? 1: -1);
+    let uniqueLanguages = allRepoData.map(repo => {
+      return repo['language'];
+    }).filter(isUnique);
 
     return (
       <React.Fragment>
-        {allRepoData.map(repo => {
-          return <input type="button" value={repo['language']} onClick={filterLanguage}/>
+        {uniqueLanguages.map(language => {
+          return <input type="button" value={language} onClick={filterLanguage}/>
         })}
-        { displayLanguage ? displayRepoData.filter(repo => 
-        repo['language'] === displayLanguage).map(repo => {
+        { displayLanguage ? displayRepoData.filter(repo => {
+        return repo['language'] === displayLanguage}).map(repo => {
           return <RepoItem repoData={repo} />
         })
         :
