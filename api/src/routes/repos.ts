@@ -7,6 +7,7 @@ const JSON_URL = "https://api.github.com/users/silverorange/repos";
 
 repos.get('/', async (_: Request, res: Response) => {
   res.header('Cache-Control', 'no-store');
+  res.header("Content-Type", "application/json")
 
   res.status(200);
 
