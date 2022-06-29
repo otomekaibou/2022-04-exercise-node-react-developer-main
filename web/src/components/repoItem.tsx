@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CommitDetails } from './commitDetails';
+import { ReadMeContainer } from './readMeContainer';
 
 export function RepoItem(props: any) {
   const [showDetails, setShowDetails] = useState(false);
@@ -27,6 +28,7 @@ export function RepoItem(props: any) {
       (json) => {
         if (mounted) {
           setCommitData(json);
+          console.log(json);
           setLoading(false);
         }
       },
@@ -56,7 +58,10 @@ export function RepoItem(props: any) {
         <div>Language: {repoData.language}</div>
         <div>Forks Count: {repoData.forks_count}</div>
         {showDetails ? 
-          <CommitDetails commitData={commitData}/>
+          <div>
+            <CommitDetails commitData={commitData} />
+            <ReadMeContainer fullName={repoData.full_name} />
+          </div>
           :
           null
         }
