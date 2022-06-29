@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { RepoItem } from './repoItem';
 
 export function RepositoryContainer() {
   const [error, setError] = useState(null);
@@ -39,7 +40,10 @@ export function RepositoryContainer() {
 
     return (
       <React.Fragment>
-        <div>hullo</div>
+        {repoData.map(repo => {
+            return <RepoItem repoData={repo} />
+          })
+        }
       </React.Fragment>
     );
   }
